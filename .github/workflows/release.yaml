@@ -26,6 +26,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            /home/runner/work/tc-redirect-tap/tc-redirect-tap/cmd/tc-redirect-tap
+            tc-redirect-tap
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
