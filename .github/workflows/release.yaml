@@ -19,25 +19,13 @@ jobs:
       - name: Get dependencies
         run: make deps
 
-      - name: Build for Linux amd64
-        run: GOOS=linux GOARCH=amd64 go build -o bin/linux/amd64/tc-redirect-tap-linux-amd64
-
-      - name: Build for Linux arm64
-        run: GOOS=linux GOARCH=arm64 go build -o bin/linux/arm64/tc-redirect-tap-linux-arm64
-
-      - name: Build for Darwin amd64
-        run: GOOS=darwin GOARCH=amd64 go build -o bin/darwin/amd64/tc-redirect-tap-darwin-amd64
-
-      - name: Build for Darwin arm64
-        run: GOOS=darwin GOARCH=arm64 go build -o bin/darwin/arm64/tc-redirect-tap-darwin-arm64
+      - name: Build
+        run: make all
 
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            bin/linux/amd64/tc-redirect-tap-linux-amd64
-            bin/linux/arm64/tc-redirect-tap-linux-arm64
-            bin/darwin/amd64/tc-redirect-tap-darwin-amd64
-            bin/darwin/arm64/tc-redirect-tap-darwin-arm64
+            cmd/tc-redirect-tap
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
