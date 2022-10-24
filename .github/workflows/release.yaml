@@ -19,10 +19,18 @@ jobs:
       - name: Get dependencies
         run: make deps
 
+      - name: Run tests
+        run: make test
+
       - name: Build
         run: |
           GOOS=linux GOARCH=amd64 go build -o bin/tc-redirect-tap-amd64 ./cmd/tc-redirect-tap
           GOOS=linux GOARCH=arm64 go build -o bin/tc-redirect-tap-arm64 ./cmd/tc-redirect-tap
+
+      - name: Sign
+        run: |
+          echo "${{ hashFiles('bin/tc-redirect-tap-amd64') }}" > bin/tc-redirect-tap-amd64.sha256
+          echo "${{ hashFiles('bin/tc-redirect-tap-arm64') }}" > bin/tc-redirect-tap-arm64.sha256
 
       - name: Release
         uses: softprops/action-gh-release@v1
@@ -30,5 +38,7 @@ jobs:
           files: |
             bin/tc-redirect-tap-amd64
             bin/tc-redirect-tap-arm64
+            bin/tc-redirect-tap-amd64.sha256
+            bin/tc-redirect-tap-arm64.sha256
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
